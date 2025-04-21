@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+#calculator {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 200px;
+  margin: 0 auto;
+}
+button {
+  height: 50px;
+  font-size: 24px;
+}
+#result {
+  grid-column: span 4;
+  height: 50px;
+  border: 1px solid #000;
+  font-size: 24px;
+  text-align: right;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<div id="calculator">
+  <div id="result"></div>
+  <button>7</button>
+  <button>8</button>
+  <button>9</button>
+  <button>/</button>
+  <button>4</button>
+  <button>5</button>
+  <button>6</button>
+  <button>*</button>
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>-</button>
+  <button>0</button>
+  <button>.</button>
+  <button>=</button>
+  <button>+</button>
+</div>
+<script>
+let result = '';
+let operation = '';
+let operand1 = '';
+let operand2 = '';
+function setup() {
+  noCanvas();
+  let buttons = selectAll('button');
+  buttons.forEach(button => {
+    button.mousePressed(() => {
+      let buttonText = button.html();
+      switch (buttonText) {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+          operation = buttonText;
+          operand1 = result;
+          result = '';
+          break;
+        case '=':
+          operand2 = result;
+          result = eval(`${operand1} ${operation} ${operand2}`);
+          break;
+        default:
+          result += buttonText;
+      }
+      select('#result').html(result);
+    });
+  });
+}
+</script>
+</body>
+</html>
